@@ -2,26 +2,30 @@
   "name": "@ocopjs/ocop",
   "description": "OcopJS - Thành phần chính của @ocopjs gồm class &amp; CLI. 🇻🇳",
   "version": "1.0.0",
-  "author": "The OcopJS Development Team",
-  "license": "MIT",
-  "engines": {
-    "node": ">=10.0.0"
-  },
-  "bin": {
-    "ocop": "src/bin/cli.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ocopjs/ocop.git"
-  },
-  "main": "src/index.js",
-  "directories": {
-    "lib": "lib",
-    "test": "tests"
-  },
+  "author": "ocopjs",
   "scripts": {
     "test": "jest",
     "format": "prettier --write \"**/*.{ts,tsx,md,js}\""
+  },
+  "license": "Apache-2.0",
+  "homepage": "https://ocopee.com",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ocopjs/adapter-mongoose.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ocopjs/adapter-mongoose/issues"
+  },
+  "main": "./src/index.js",
+  "engines": {
+    "node": "16"
+  },
+  "directories": {
+    "lib": "src/lib",
+    "test": "tests"
   },
   "dependencies": {
     "@apollo/subgraph": "^0.3.1",
@@ -59,6 +63,12 @@
     "terminal-link": "^2.1.1"
   },
   "devDependencies": {
+    "@semantic-release/commit-analyzer": "^11.1.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^9.2.6",
+    "@semantic-release/npm": "^11.0.2",
+    "@semantic-release/release-notes-generator": "^12.1.0",
+    "semantic-release": "^23.0.2",
     "jest": "^29.7.0",
     "p-is-promise": "^3.0.0",
     "tmp": "^0.2.1",
