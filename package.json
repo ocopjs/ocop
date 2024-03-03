@@ -14,10 +14,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ocopjs/adapter-mongoose.git"
+    "url": "https://github.com/ocopjs/ocop.git"
   },
   "bugs": {
-    "url": "https://github.com/ocopjs/adapter-mongoose/issues"
+    "url": "https://github.com/ocopjs/ocop/issues"
   },
   "main": "./src/index.js",
   "engines": {
