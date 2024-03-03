@@ -1,0 +1,8 @@
+**/*.md
+.github
+tests
+pnpm-lock.yaml
+release.config.mjs
+tsconfig.json
+tsup.config.mjs
+
