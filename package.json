@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "author": "ocopjs",
   "scripts": {
-    "test": "jest",
+    "test": "jest tests/bin",
     "format": "prettier --write \"**/*.{ts,tsx,md,js}\""
   },
   "license": "Apache-2.0",
@@ -26,6 +26,9 @@
   "directories": {
     "lib": "src/lib",
     "test": "tests"
+  },
+  "bin": {
+    "ocop": "src/bin/cli.js"
   },
   "dependencies": {
     "@apollo/subgraph": "^0.3.1",
