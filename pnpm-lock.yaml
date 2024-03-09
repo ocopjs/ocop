@@ -11,6 +11,9 @@ dependencies:
   '@ocopjs/access-control':
     specifier: ^1.0.1
     version: 1.0.1
+  '@ocopjs/app-version':
+    specifier: ^1.0.0
+    version: 1.0.0
   '@ocopjs/common':
     specifier: ^1.0.3
     version: 1.0.3
@@ -1044,6 +1047,17 @@ packages:
     engines: {node: '16'}
     dependencies:
       '@ocopjs/utils': 1.0.5
+    dev: false
+
+  /@ocopjs/app-version@1.0.0:
+    resolution: {integrity: sha512-EGoS4Vsl/2v1gGU386ynDqEPjlvIWc6I759fNhDDWhcPv1FW0AtO/uvAdKsLVv3DCrgc2wTay0XtZHw5jdzt5w==}
+    engines: {node: '16'}
+    dependencies:
+      '@babel/runtime': 7.24.0
+      '@ocopjs/access-control': 1.0.1
+      express: 4.18.3
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@ocopjs/common@1.0.3:
