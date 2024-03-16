@@ -9,11 +9,11 @@ const {
   Float,
   Relationship,
   Integer,
-} = require("@ocop/fields");
+} = require("@ocopjs/fields");
 const path = require("path");
 
 let fieldsPackagePath = path.dirname(
-  require.resolve("@ocop/fields/package.json"),
+  require.resolve("@ocopjs/fields/package.json"),
 );
 function resolveViewPath(viewPath) {
   return path.join(fieldsPackagePath, "types", viewPath);

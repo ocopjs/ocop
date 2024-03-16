@@ -5,6 +5,7 @@ const falsey = require("falsey");
 const createCorsMiddleware = require("cors");
 const { execute, print } = require("graphql");
 const { GraphQLUpload } = require("graphql-upload");
+
 const pinoLogger = require("express-pino-logger");
 const { buildSubgraphSchema } = require("@apollo/subgraph");
 
@@ -71,6 +72,7 @@ module.exports = class Ocop {
       },
       defaultAccess,
     );
+    this.auth = {};
     this.eventHandlers = { onConnect };
     this._schemaNames = schemaNames;
     this.appVersion = Object.assign(
@@ -298,12 +300,16 @@ module.exports = class Ocop {
       config,
       hooks,
     } = composePlugins(options.plugins || [])(options, { ocop: this });
+
     const { authType } = StrategyType;
     if (!this.auth[listKey]) {
       this.auth[listKey] = {};
     }
     const strategy = new StrategyType(this, listKey, config);
+
     strategy.authType = authType;
+
+    this._sessionManager = strategy.sessionManager;
     this.auth[listKey][authType] = strategy;
     if (!this.getListByKey(listKey)) {
       strategy.gqlNames = {
@@ -551,9 +557,9 @@ module.exports = class Ocop {
     }
   }
 
-  createApolloServer({ apolloConfig = {}, schemaName, dev }) {
-    // if (this.server) return this.server;
-
+  createApolloServer({ apolloConfig = {}, schemaName, dev, logger }) {
+    if (logger) logger("Tạo máy chủ Apollo");
+    if (this.server) return this.server;
     const context = ({ req }) => {
       const accessContext = this.createContext({
         schemaName,
@@ -561,11 +567,18 @@ module.exports = class Ocop {
         skipAccessControl: false,
       });
 
-      return Object.assign(accessContext, { req });
+      const sessionContext = this._sessionManager.getContext(req);
+
+      return {
+        ...accessContext,
+        ...sessionContext,
+        req,
+      };
     };
     const typeDefs = this.getTypeDefs({ schemaName });
     const resolvers = this.getResolvers({ schemaName });
     const server = new ApolloServer({
+      ...apolloConfig,
       typeDefs,
       resolvers,
       context,
@@ -696,22 +709,27 @@ module.exports = class Ocop {
   }
 
   async getMiddlewares({ dev, apps, distDir, pinoOptions, cors, logger }) {
+    logger("Tạo các hàm Middlewares");
     const { DEFAULT_DIST_DIR } = constants();
     const middlewares = [];
+
     /* app version */
     if (this.appVersion.addVersionToHttpHeaders) {
       const versionMiddleware = appVersionMiddleware(this.appVersion.version);
+      logger("App Version");
       middlewares.push(versionMiddleware);
     }
 
     /* logger */
     if (falsey(process.env.DISABLE_LOGGING)) {
+      logger("Pino Logger");
       const loggerMiddleware = pinoLogger(pinoOptions);
       middlewares.push(loggerMiddleware);
     }
 
     /* cors */
     if (cors) {
+      logger("Cors");
       const corsMiddleware = createCorsMiddleware();
       middlewares.push(corsMiddleware);
     }
@@ -720,15 +738,22 @@ module.exports = class Ocop {
      * jwt
      */
     if (this.jwt) {
+      logger("JWT");
       // const jwtMiddleware = createJWTMiddlewareV2(this.jwt);
       // middlewares.push(jwtMiddleware);
     }
 
+    const sessions =
+      this?._sessionManager?.getSessionMiddleware({ ocop: this }) || [];
+    for (const middleware of sessions) {
+      logger(`${middleware.name}`);
+      middlewares.push(middleware);
+    }
+
     /* apps */
     for (const app of apps) {
-      if (typeof logger === "function") {
-        logger(`Middleware ${app.constructor.name}`);
-      }
+      logger(`${app.constructor.name}`);
+
       const middleware = await app.getMiddleware({
         ocop: this,
         dev,
@@ -736,7 +761,9 @@ module.exports = class Ocop {
       });
       middlewares.push(middleware);
     }
+
     return middlewares.filter((middleware) => !!middleware);
+
     return flattenDeep([
       // this.appVersion.addVersionToHttpHeaders &&
       // appVersionMiddleware(this.appVersion.version),
@@ -782,7 +809,8 @@ module.exports = class Ocop {
     cors = { origin: true, credentials: true },
     logger,
   } = {}) {
-    const server = this.createApolloServer({ schemaName: "internal" });
+    const server = this.createApolloServer({ schemaName: "internal", logger });
+
     const middlewares = await this.getMiddlewares({
       dev,
       apps,
@@ -791,6 +819,7 @@ module.exports = class Ocop {
       cors,
       logger,
     });
+
     // These function can't be called after prepare(), so make them throw an error from now on.
     ["extendGraphQLSchema", "createList", "createAuthStrategy"].forEach((f) => {
       this[f] = () => {

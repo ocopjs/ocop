@@ -9,11 +9,11 @@ dependencies:
     specifier: ^0.3.1
     version: 0.3.3(graphql@15.8.0)
   '@ocopjs/access-control':
+    specifier: ^1.0.3
+    version: 1.0.3
+  '@ocopjs/app-version':
     specifier: ^1.0.1
     version: 1.0.1
-  '@ocopjs/app-version':
-    specifier: ^1.0.0
-    version: 1.0.0
   '@ocopjs/common':
     specifier: ^1.0.3
     version: 1.0.3
@@ -69,7 +69,7 @@ dependencies:
     specifier: ^11.0.3
     version: 11.1.0
   graphql:
-    specifier: ^15.5.0
+    specifier: ^15.8.0
     version: 15.8.0
   graphql-request:
     specifier: ^3.7.0
@@ -1042,19 +1042,19 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.17.1
 
-  /@ocopjs/access-control@1.0.1:
-    resolution: {integrity: sha512-+T4Z6dIMqvmXG+f+JJPaZynTy4T8cJFbWk3zETJ5zRdLynl9BwNe1ndwwPQgdzcQ/JIZAEZ7HoShNF0nFoNDPQ==}
+  /@ocopjs/access-control@1.0.3:
+    resolution: {integrity: sha512-hcYVT9YWtvggREoxJdoO2nl0nut+UNiXavgQW0MXy//8fKfQCStY8CPNda0uizOAqvEC9zXixVTjWab31htlGg==}
     engines: {node: '16'}
     dependencies:
       '@ocopjs/utils': 1.0.5
     dev: false
 
-  /@ocopjs/app-version@1.0.0:
-    resolution: {integrity: sha512-EGoS4Vsl/2v1gGU386ynDqEPjlvIWc6I759fNhDDWhcPv1FW0AtO/uvAdKsLVv3DCrgc2wTay0XtZHw5jdzt5w==}
+  /@ocopjs/app-version@1.0.1:
+    resolution: {integrity: sha512-SOfKuZ1/69qD0c1OKoyPYmFanlA77BHErj/9AiBxC5sCdr1xSCkFxQ4CAXu63dk2yPEXAsmjmol4yDPqzAMQNg==}
     engines: {node: '16'}
     dependencies:
       '@babel/runtime': 7.24.0
-      '@ocopjs/access-control': 1.0.1
+      '@ocopjs/access-control': 1.0.3
       express: 4.18.3
     transitivePeerDependencies:
       - supports-color

@@ -64,12 +64,19 @@ function extractAppMeta(apps, dev) {
  */
 async function executeDefaultServer(args, entryFile, distDir, spinner) {
   const { DEFAULT_PORT, DEFAULT_APP_URL } = constants();
-  const dev = process.env.NODE_ENV !== "production";
+  const {
+    ocop,
+    apps = [],
+    configureExpress = () => {},
+    cors,
+    pinoOptions,
+  } = require(path.resolve(entryFile));
 
+  const dev = process.env.NODE_ENV !== "production";
   const port = args["--port"] ? args["--port"] : DEFAULT_PORT;
   const appUrl = args["--app-url"] ? args["--app-url"] : DEFAULT_APP_URL;
-  let status = "start-server";
 
+  let status = "start-server";
   const app = express();
 
   app.use((_req, res, next) => {
@@ -97,15 +104,10 @@ async function executeDefaultServer(args, entryFile, distDir, spinner) {
       return resolve({ server });
     });
   });
+  spinner.succeed(`Đã khởi tạo máy chủ.`);
+
   status = "init-ocop";
-  await new Promise((resolve) => setTimeout(resolve, 100));
-  const {
-    ocop,
-    apps = [],
-    configureExpress = () => {},
-    cors,
-    pinoOptions,
-  } = require(path.resolve(entryFile));
+
   configureExpress(app);
   spinner.succeed(`Đã khởi tạo.`);
   status = "db-connect";
@@ -114,16 +116,17 @@ async function executeDefaultServer(args, entryFile, distDir, spinner) {
    * create express middlewares
    */
   spinner.start("Đang khởi tạo middlewares.");
-  const { middlewares } = await ocop.prepare({
+  const { server: _server, middlewares } = await ocop.prepare({
     apps,
     distDir,
     dev,
     cors,
     pinoOptions,
     logger: (value) => {
-      spinner.info(value);
+      spinner.info(` ${value}`);
     },
   });
+  app.use(middlewares);
   spinner.succeed("Đã khởi tạo middlewares.");
 
   /**
@@ -133,8 +136,6 @@ async function executeDefaultServer(args, entryFile, distDir, spinner) {
   await ocop.connect();
   spinner.succeed("Đã kết nối đến cơ sở dữ liệu.");
 
-  spinner.start("Đang cài đặt middlewares.");
-  app.use(middlewares);
   status = "started";
   spinner.succeed(`Đã sẵn sàng tại ${port}`);
   const { adminPath, graphiqlPath, apiPath } = extractAppMeta(apps, dev);

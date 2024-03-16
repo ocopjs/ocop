@@ -15,7 +15,7 @@ OcopJS - Thành phần chính của @ocopjs gồm class &amp; CLI. 🇻🇳
 ## Usage
 
 ```javascript
-const { Ocop } = require("@ocop/ocop");
+const { Ocop } = require("@ocopjs/ocop");
 
 const ocop = new Ocop({
   adapter,
