@@ -567,7 +567,7 @@ module.exports = class Ocop {
         skipAccessControl: false,
       });
 
-      const sessionContext = this._sessionManager.getContext(req);
+      const sessionContext = this._sessionManager?.getContext(req);
 
       return {
         ...accessContext,
