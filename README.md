@@ -12,6 +12,12 @@ OcopJS - Thành phần chính của @ocopjs gồm class &amp; CLI. 🇻🇳
 > phiên bản mới hơn. Chúng tôi đã dựa trên mã nguồn cũ này để phát triển một
 > phiên bản khác với một số tính năng theo hướng microservices.
 
+## Install latest dependencies
+
+```sh
+pnpm i @ocopjs/access-control@latest @ocopjs/app-version@latest @ocopjs/common@latest @ocopjs/utils@latest
+```
+
 ## Usage
 
 ```javascript
