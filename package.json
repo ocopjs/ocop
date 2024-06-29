@@ -8,7 +8,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md,js}\""
   },
   "license": "Apache-2.0",
-  "homepage": "https://ocopee.com",
+  "homepage": "https://docs.ocopee.com/docs/ocopjs/references/ocop",
   "publishConfig": {
     "access": "public"
   },
