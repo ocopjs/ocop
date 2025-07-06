@@ -2,7 +2,7 @@ const path = require("path");
 const dotenv = require("dotenv");
 
 const { executeDefaultServer, getEntryFileFullPath } = require("../utils");
-const constants = require("../../constants");
+const { envConf } = require("../../constants");
 
 module.exports = {
   // prettier-ignore
@@ -14,7 +14,7 @@ module.exports = {
     "--connect-to": String,
   },
   help: ({ exeName }) => {
-    const { DEFAULT_PORT, DEFAULT_ENTRY } = constants();
+    const { DEFAULT_PORT, DEFAULT_ENTRY } = envConf();
     return `
     Usage
       $ ${exeName} dev --port=3000

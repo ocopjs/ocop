@@ -7,13 +7,13 @@ const info = {
   exeName: Object.keys(pkgInfo.bin)[0],
   version: pkgInfo.version,
 };
-const constants = require("../constants");
+const { envConf } = require("../constants");
 
 module.exports = {
   version: () => info.version,
 
   help: (commands) => {
-    const { DEFAULT_COMMAND } = constants();
+    const { DEFAULT_COMMAND } = envConf();
     return endent`
     Usage
       $ ${info.exeName} <command>
@@ -39,7 +39,7 @@ module.exports = {
   },
 
   exec: (args, commands, spinner) => {
-    const { DEFAULT_COMMAND } = constants();
+    const { DEFAULT_COMMAND } = envConf();
     const command = args._[0] ? args._[0] : DEFAULT_COMMAND;
     const cliOptions = Object.entries(args)
       .filter(([arg]) => arg !== "_")

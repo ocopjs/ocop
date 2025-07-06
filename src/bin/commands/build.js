@@ -14,7 +14,7 @@ module.exports = {
     "--entry": String,
   },
   help: ({ exeName }) => {
-    const { DEFAULT_ENTRY } = constants();
+    const { DEFAULT_ENTRY } = envConf();
     return `
     Usage
       $ ${exeName} build --out=dist
@@ -27,7 +27,7 @@ module.exports = {
   exec: async (args, { exeName, _cwd = process.cwd() } = {}, spinner) => {
     const envDir = path.join(_cwd, ".env");
     dotenv.config({ path: envDir });
-    const { DEFAULT_DIST_DIR } = constants();
+    const { DEFAULT_DIST_DIR } = envConf();
 
     process.env.NODE_ENV = "production";
 

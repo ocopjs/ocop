@@ -1,4 +1,4 @@
-module.exports = () => {
+export function envConf() {
   const PORT = process.env.GRAPHQL_PORT || 3000;
   return {
     DEFAULT_PORT: PORT,
@@ -8,4 +8,4 @@ module.exports = () => {
     DEFAULT_DIST_DIR: "dist",
     DEFAULT_COMMAND: "dev",
   };
-};
+}

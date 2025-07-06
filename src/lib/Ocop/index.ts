@@ -1,48 +1,44 @@
-const { ApolloServer, gql } = require("apollo-server-express");
-const flattenDeep = require("lodash.flattendeep");
-const memoize = require("micro-memoize");
-const falsey = require("falsey");
-const createCorsMiddleware = require("cors");
-const { execute, print } = require("graphql");
-const { GraphQLUpload } = require("graphql-upload");
-
-const pinoLogger = require("express-pino-logger");
-const { buildSubgraphSchema } = require("@apollo/subgraph");
-
-const {
+import GraphQLUpload from "graphql-upload/GraphQLUpload.mjs";
+import { envConf } from "../../constants";
+import { ApolloServer } from "@apollo/server";
+import gql from "graphql-tag";
+import flattenDeep from "lodash.flattendeep";
+import memoize from "micro-memoize";
+import createCorsMiddleware from "cors";
+import { execute, print } from "graphql";
+import pinoLogger from "pino-http";
+import { buildSubgraphSchema } from "@apollo/subgraph";
+import {
   arrayToObject,
   objMerge,
   flatten,
   unique,
   filterValues,
   upcase,
-} = require("@ocopjs/utils");
-const {
+  falsey,
+} from "@ocopjs/utils";
+import {
   validateFieldAccessControl,
   validateListAccessControl,
   validateCustomAccessControl,
   validateAuthAccessControl,
-} = require("@ocopjs/access-control");
-// const { createJWTMiddlewareV2 } = require("@ocopjs/session");
-const {
-  AppVersionProvider,
-  appVersionMiddleware,
-} = require("@ocopjs/app-version");
-
-const { List } = require("../ListTypes");
-const constants = require("../../constants");
-const {
+} from "@ocopjs/access-control";
+// import { createJWTMiddlewareV2 } from "@ocopjs/session";
+import { AppVersionProvider, appVersionMiddleware } from "@ocopjs/app-version";
+import { List } from "../ListTypes";
+import {
   CustomProvider,
   ListAuthProvider,
   ListCRUDProvider,
-} = require("../providers");
-const { formatError } = require("./format-error");
+} from "../providers";
+import { formatError } from "./format-error";
 
-// composePlugins([f, g, h])(o, e) = h(g(f(o, e), e), e)
 const composePlugins = (fns) => (o, e) =>
   fns.reduce((acc, fn) => fn(acc, e), o);
 
-module.exports = class Ocop {
+export { List };
+
+export class Ocop {
   server;
   adapter;
   lists = {};
@@ -537,7 +533,6 @@ module.exports = class Ocop {
       rel.tableName = tableName;
       rel.columnName = columnName;
     });
-
     return Object.values(rels);
   }
 
@@ -578,7 +573,6 @@ module.exports = class Ocop {
     const typeDefs = this.getTypeDefs({ schemaName });
     const resolvers = this.getResolvers({ schemaName });
     const server = new ApolloServer({
-      ...apolloConfig,
       typeDefs,
       resolvers,
       context,
@@ -588,10 +582,11 @@ module.exports = class Ocop {
       schemaName: "internal",
       schema: buildSubgraphSchema({ typeDefs, resolvers }),
       uploads: false, // User cannot override this as it would clash with the upload middleware
+      ...apolloConfig,
     });
     this._schemas[schemaName] = server.schema;
     this.server = server;
-
+    server._context = context;
     return server;
   }
 
@@ -710,7 +705,7 @@ module.exports = class Ocop {
 
   async getMiddlewares({ dev, apps, distDir, pinoOptions, cors, logger }) {
     logger("Tạo các hàm Middlewares");
-    const { DEFAULT_DIST_DIR } = constants();
+    const { DEFAULT_DIST_DIR } = envConf();
     const middlewares = [];
 
     /* app version */
@@ -829,4 +824,4 @@ module.exports = class Ocop {
 
     return { server, middlewares };
   }
-};
+}

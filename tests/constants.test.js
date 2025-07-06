@@ -1,8 +1,9 @@
-const constants = require("../constants");
+const Ocop,
+  { envConf } = require("../dist");
 
-describe("constants()", () => {
+describe("envConf()", () => {
   test("exports", () => {
-    const value = constants();
+    const value = envConf();
     expect(typeof value.DEFAULT_PORT).toBe("number");
     expect(typeof value.DEFAULT_ENTRY).toBe("string");
     expect(typeof value.DEFAULT_SERVER).toBe("string");

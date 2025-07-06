@@ -6,7 +6,8 @@ const {
 const ensureError = require("ensure-error");
 const { serializeError } = require("serialize-error");
 const StackUtils = require("stack-utils");
-const cuid = require("cuid");
+const cuid2 = require("@paralleldrive/cuid2");
+cuid = cuid2.createId;
 const { omit } = require("@ocopjs/utils");
 
 const { graphqlLogger } = require("./logger");

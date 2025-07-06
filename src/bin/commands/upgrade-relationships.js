@@ -259,7 +259,7 @@ module.exports = {
     "--migration": Boolean,
   },
   help: ({ exeName }) => {
-    const { DEFAULT_ENTRY } = constants();
+    const { DEFAULT_ENTRY } = envConf();
     return `
     Usage
       $ ${exeName} upgrade-relationships

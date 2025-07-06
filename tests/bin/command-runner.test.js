@@ -1,5 +1,4 @@
-const commandRunner = require("../../src/bin/command-runner");
-const constants = require("../../src/constants");
+const { envConf, commandRunner } = require("../../dist");
 const version = require("../../package.json").version;
 
 const mockSpinner = {
@@ -46,7 +45,7 @@ describe("ocop CLI command-runner", () => {
   });
 
   test("executes the default command ", () => {
-    const { DEFAULT_COMMAND } = constants();
+    const { DEFAULT_COMMAND } = envConf();
     expect(
       commandRunner.exec(
         { _: [] },

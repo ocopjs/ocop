@@ -1,9 +1,7 @@
 const fs = require("fs");
 const tmp = require("tmp");
 const http = require("http");
-const devCommand = require("../../src/bin/commands/dev");
-const _constants = require("../../src/constants");
-const constants = _constants();
+const { devCommand, envConf } = require("../../dist");
 
 const mockSpinner = {
   text: "",
@@ -57,7 +55,7 @@ describe("dev command", () => {
   });
 
   test("is setup with a default server on default port", async () => {
-    const localDevCommand = require("../../src/bin/commands/dev");
+    const { devCommand: localDevCommand } = require("../../dist");
     const serverFileObj = tmp.fileSync({ postfix: ".js" });
     fs.writeFileSync(
       serverFileObj.fd,
@@ -78,13 +76,13 @@ describe("dev command", () => {
       undefined,
       mockSpinner,
     );
-
-    await expectServerResponds({ port: constants.DEFAULT_PORT });
+    const port = envConf().DEFAULT_PORT;
+    await expectServerResponds({ port });
     return cleanupServer(server);
   });
 
   test("prepare server with port from --port arg", async () => {
-    const localDevCommand = require("../../src/bin/commands/dev");
+    const { devCommand: localDevCommand } = require("../../dist");
     const serverFileObj = tmp.fileSync({ postfix: ".js" });
     fs.writeFileSync(
       serverFileObj.fd,

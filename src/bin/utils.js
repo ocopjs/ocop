@@ -4,8 +4,7 @@ const endent = require("endent").default;
 const ciInfo = require("ci-info");
 const chalk = require("chalk");
 const path = require("path");
-
-const constants = require("../constants");
+const { envConf } = require("../constants");
 
 const ttyLink = (text, path, appUrl) => {
   if (ciInfo.isCI) {
@@ -17,7 +16,7 @@ const ttyLink = (text, path, appUrl) => {
 };
 
 function getEntryFileFullPath(args, { exeName, _cwd }) {
-  const { DEFAULT_ENTRY } = constants();
+  const { DEFAULT_ENTRY } = envConf();
 
   const entryFile = args["--entry"] ? args["--entry"] : DEFAULT_ENTRY;
   try {
@@ -63,7 +62,7 @@ function extractAppMeta(apps, dev) {
  * execute default server
  */
 async function executeDefaultServer(args, entryFile, distDir, spinner) {
-  const { DEFAULT_PORT, DEFAULT_APP_URL } = constants();
+  const { DEFAULT_PORT, DEFAULT_APP_URL } = envConf();
   const {
     ocop,
     apps = [],

@@ -1,4 +1,4 @@
-const falsey = require("falsey");
+const { falsey } = require("@ocopjs/utils");
 const pino = require("pino");
 
 module.exports = {

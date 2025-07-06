@@ -1,8 +1,7 @@
-const { gql } = require("apollo-server-express");
+const gql = require("graphql-tag");
 const { print } = require("graphql/language/printer");
 
-const { List } = require("../lib/ListTypes");
-const { AccessDeniedError } = require("../lib/ListTypes/graphqlErrors");
+const { AccessDeniedError, List } = require("../dist");
 const {
   Text,
   Checkbox,
