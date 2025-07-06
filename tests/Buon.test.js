@@ -1,5 +1,4 @@
-const Ocop = require("../dist/lib/Ocop");
-const { List } = require("../dist.lib/ListTypes");
+const { Ocop, List } = require("../dist");
 const { isPromise } = require("@ocopjs/utils");
 class MockFieldAdapter {}
 

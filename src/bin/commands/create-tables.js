@@ -1,7 +1,7 @@
 const path = require("path");
 const chalk = require("chalk");
 
-const constants = require("../../constants");
+const { envConf } = require("../../constants");
 const { getEntryFileFullPath } = require("../utils");
 
 const createTables = async (args, entryFile, spinner) => {

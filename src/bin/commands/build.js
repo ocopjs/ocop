@@ -4,7 +4,7 @@ const fs = require("fs-extra");
 const dotenv = require("dotenv");
 
 const { getEntryFileFullPath } = require("../utils");
-const constants = require("../../constants");
+const { envConf } = require("../../constants");
 
 module.exports = {
   // prettier-ignore

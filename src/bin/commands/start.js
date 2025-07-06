@@ -2,7 +2,7 @@ const path = require("path");
 const dotenv = require("dotenv");
 
 const { executeDefaultServer, getEntryFileFullPath } = require("../utils");
-const constants = require("../../constants");
+const { envConf } = require("../../constants");
 
 module.exports = {
   // prettier-ignore

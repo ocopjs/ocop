@@ -2,7 +2,7 @@ const path = require("path");
 const chalk = require("chalk");
 const terminalLink = require("terminal-link");
 
-const constants = require("../../constants");
+const { envConf } = require("../../constants");
 const { getEntryFileFullPath } = require("../utils");
 
 const c = (s) => chalk.cyan(s);
