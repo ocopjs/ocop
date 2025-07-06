@@ -1,7 +1,7 @@
 {
   "name": "@ocopjs/ocop",
   "description": "OcopJS - Thành phần chính của @ocopjs gồm class &amp; CLI. 🇻🇳",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "ocopjs",
   "scripts": {
     "test": "jest tests/bin",
