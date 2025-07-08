@@ -577,6 +577,7 @@ export class Ocop {
       resolvers,
       context,
       engine: false,
+      csrfPrevention: false,
       tracing: dev,
       formatError,
       schemaName: "internal",
